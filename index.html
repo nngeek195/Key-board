@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sinhala Text Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .output {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sinhala Text Converter</h1>
+
+  <label for="box2">Enter Text (Windows Keyboard Layout):</label>
+  <textarea id="box2" placeholder="Type here..."></textarea>
+
+  <button onclick="startTextSf()">Convert</button>
+
+  <div class="output">
+    <label for="box3">Converted Output 1 (writeSinhalaWindowsKB):</label>
+    <textarea id="box3" readonly></textarea>
+
+    <label for="box4">Converted Output 2 (toisiwara):</label>
+    <textarea id="box4" readonly></textarea>
+  </div>
+
+  <script src="convert.js"></script>
+</body>
+</html>
