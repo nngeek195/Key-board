@@ -2,49 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sinhala Text Converter</title>
+  <title>Sinhala Typing Converter</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f4f4f4;
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    textarea, input {
+      width: 100%; padding: 12px; margin-bottom: 10px; font-size: 16px;
     }
-    textarea {
-      width: 100%;
-      height: 100px;
-      margin-bottom: 10px;
-      font-size: 16px;
+    .output {
+      font-family: 'Iskoola Pota', 'Nirmala UI', sans-serif;
+      font-size: 20px;
     }
     button {
       padding: 10px 20px;
-      font-size: 16px;
       cursor: pointer;
-    }
-    .output {
-      margin-top: 20px;
-    }
-    label {
-      font-weight: bold;
+      margin-right: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Sinhala Text Converter</h1>
+<h2>English to Sinhala Typing Converter</h2>
 
-  <label for="box2">Enter Text (Windows Keyboard Layout):</label>
-  <textarea id="box2" placeholder="Type here..."></textarea>
+<label>Type in Singlish:</label>
+<textarea id="box2" rows="6" placeholder="Type here..." oninput="handleTyping(this.value)"></textarea>
 
-  <button onclick="startTextSf()">Convert</button>
+<label>Converted Unicode Text:</label>
+<input type="text" id="box3" readonly class="output" />
 
-  <div class="output">
-    <label for="box3">Converted Output 1 (writeSinhalaWindowsKB):</label>
-    <textarea id="box3" readonly></textarea>
+<label>Legacy Font Output:</label>
+<input type="text" id="box4" readonly class="output" />
 
-    <label for="box4">Converted Output 2 (toisiwara):</label>
-    <textarea id="box4" readonly></textarea>
-  </div>
+<br />
+<button onclick="startTextSf()">Convert</button>
+<button onclick="copyText()">Copy</button>
+<button onclick="clearText()">Clear</button>
 
-  <script src="convert.js"></script>
+<!-- Original Singlish-to-Sinhala Logic -->
+<script src="Pasted_Text_1746705673908.js"></script>
+
+<!-- Our Fixed Legacy Font Mapping -->
+<script src="win.js"></script>
+
+<script>
+function handleTyping(value) {
+    const sinhalaText = doGnConvert(value);
+    document.getElementById("box3").value = sinhalaText;
+
+    const legacyText = writeSinhalaWindowsKB(sinhalaText);
+    document.getElementById("box4").value = legacyText;
+}
+
+function startTextSf() {
+    const input = document.getElementById("box2").value;
+    const sinhalaText = doGnConvert(input);
+    document.getElementById("box3").value = sinhalaText;
+
+    const legacyText = writeSinhalaWindowsKB(sinhalaText);
+    document.getElementById("box4").value = legacyText;
+}
+
+function copyText() {
+    const box = document.getElementById("box3");
+    box.select();
+    document.execCommand("copy");
+    alert("Copied!");
+}
+
+function clearText() {
+    document.getElementById("box2").value = '';
+    document.getElementById("box3").value = '';
+    document.getElementById("box4").value = '';
+}
+</script>
+
 </body>
 </html>
