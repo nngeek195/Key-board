@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sinhala Typing Converter</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    textarea, input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      font-size: 16px;
+    }
+    .output {
+      font-family: 'Nirmala UI', 'Iskoola Pota', sans-serif;
+      font-size: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>English to Sinhala Typing Converter</h2>
+
+<label>Type in Singlish:</label>
+<textarea id="box2" rows="6" placeholder="Type here..." oninput="handleTyping(this.value)"></textarea>
+
+<label>Converted Sinhala Text:</label>
+<input type="text" id="box3" readonly class="output" />
+
+<label>Legacy Font Output:</label>
+<input type="text" id="box4" readonly class="output" />
+
+<br />
+<button onclick="startTextSf()">Convert</button>
+<button onclick="copyText()">Copy</button>
+<button onclick="clearText()">Clear</button>
+
+<!-- Load helper libraries -->
+<script src="https://unpkg.com/grapheme-splitter@1.0.4/index.js"></script>
+<!-- Load your custom scripts -->
+<script src="won.js"></script> <!-- Contains doGnConvert(), s(), etc. -->
+<script src="sinhala-splitter.js"></script> <!-- contains convertUnicodeToFont(), toisiwara() -->
+
+<script>
+function handleTyping(value) {
+    const sinhalaText = doGnConvert(value); // Singlish → Unicode
+    document.getElementById("box3").value = sinhalaText;
+
+    const legacyText = convertUnicodeToFont(sinhalaText); // Unicode → Legacy Font
+    document.getElementById("box4").value = legacyText;
+}
+
+function startTextSf() {
+    const input = document.getElementById("box2").value;
+    const sinhalaText = doGnConvert(input);
+    document.getElementById("box3").value = sinhalaText;
+
+    const legacyText = convertUnicodeToFont(sinhalaText);
+    document.getElementById("box4").value = legacyText;
+}
+
+// Copy to clipboard
+function copyText() {
+    const box = document.getElementById("box3");
+    box.select();
+    document.execCommand("copy");
+    alert("Copied!");
+}
+
+// Clear both fields
+function clearText() {
+    document.getElementById("box2").value = '';
+    document.getElementById("box3").value = '';
+    document.getElementById("box4").value = '';
+}
+</script>
+
+</body>
+</html>
