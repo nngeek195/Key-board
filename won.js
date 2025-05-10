@@ -40,6 +40,7 @@ ngn_v = 26;
 
 // Special character mappings
 specialgn_cUni[0] = "ං"; specialgn_c[0] = /\\n/g;
+specialgn_cUni[0] = "ං"; specialgn_c[0] = /x/g
 specialgn_cUni[1] = "ඃ"; specialgn_c[1] = /\\h/g;
 specialgn_cUni[2] = "ඞ"; specialgn_c[2] = /\\N/g;
 specialgn_cUni[3] = "ඍ"; specialgn_c[3] = /\\R/g;
