@@ -2,20 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sinhala Typing Converter</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SinhalaUnicodes - Singlish to Sinhala Converter</title>
+
+  <!-- 📝 Description -->
+  <meta name="description" content="A free online Singlish to Sinhala Unicode and Legacy Font converter. Type in English and get Sinhala text instantly.">
+
+  <!-- 🔍 Keywords for SEO -->
+  <meta name="keywords" content="Sinhala keyboard, Singlish to Sinhala, Unicode converter, Kaputa font, sinhala typing, sinhalaunicodes">
+
+  <!-- 🧭 Author Info -->
+  <meta name="author" content="Niranga Nayanajith">
+
+  <!-- 🌐 Open Graph Tags for Social Media Sharing -->
+  <meta property="og:title" content="SinhalaUnicodes - Singlish to Sinhala Converter">
+  <meta property="og:description" content="Type in English (Singlish) and convert to Sinhala Unicode or Legacy fonts instantly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sinhalaunicodes.vercel.app ">
+  <meta property="og:image" content="https://sinhalaunicodes.vercel.app/assets/preview.png ">
+  <meta property="og:site_name" content="SinhalaUnicodes">
+
+  <!-- 🐦 Twitter Card Meta -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SinhalaUnicodes - Singlish to Sinhala Converter">
+  <meta name="twitter:description" content="Convert Singlish to Sinhala Unicode or Legacy fonts instantly. Free & easy to use.">
+  <meta name="twitter:image" content="https://sinhalaunicodes.vercel.app/assets/preview.png ">
+  <meta name="twitter:site" content="@niranganayanajith">
+  <meta name="twitter:creator" content="@niranganayanajith">
+
+  <!-- 🖼️ Favicon Setup -->
+  <link rel="icon" href="/app_icon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/logo192.png">
+
+  <!-- 📱 Mobile Theme Colors -->
+  <meta name="theme-color" content="#2A4E6D">
+
+  <!-- 🔗 Canonical URL -->
+  <link rel="canonical" href="https://sinhalaunicodes.vercel.app " />
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css " integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
     body {
       background-color: #0a2c47;
       color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 40px;
+      padding: 20px;
       margin: 0;
     }
 
     h2 {
       text-align: center;
       color: #ffd700;
+      margin-bottom: 20px;
     }
 
     label {
@@ -85,6 +125,32 @@
         align-items: stretch;
       }
     }
+
+    /* Custom Alert Box */
+    #customAlert {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 6px;
+      z-index: 9999;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      animation: fadeSlide 0.3s ease, fadeOut 2s ease forwards;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translate(-50%, -20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translate(-50%, -20px); }
+    }
   </style>
 </head>
 <body>
@@ -117,50 +183,123 @@
       <i class="icon fas fa-trash-alt"></i> Clear
     </button>
   </div>
-  <!-- Add this at the bottom of your HTML -->
-<div id="customAlert" style="
-display: none;
-position: fixed;
-top: 20px;
-left: 50%;
-transform: translateX(-50%);
-background-color: #333;
-color: #fff;
-padding: 12px 24px;
-border-radius: 6px;
-z-index: 9999;
-font-size: 16px;
-box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-animation: fadeSlide 0.3s ease, fadeOut 2s ease forwards;
-">
-Copied!
-</div>
+  <button onclick="showMapping()" class="toggle-btn">
+  <i class="icon fas fa-info-circle"></i> Show Typing Guide
+</button>
 
-<style>
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translate(-50%, -20px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
-@keyframes fadeOut {
-  to { opacity: 0; transform: translate(-50%, -20px); }
-}
-</style>
+<!-- Modal for showing mapping -->
+<div id="mappingModal" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 9999;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+">
+  <h3>Sinhala Typing Guide</h3>
+  <p>Type using these keys:</p>
+  <ul id="mappingList" style="list-style-type: none; padding-left: 0;"></ul>
+  <button onclick="hideMapping()" style="
+    margin-top: 10px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  ">Close</button>
+</div>
+  <!-- Notification Toast -->
+  <div id="customAlert">Copied!</div>
 
   <!-- Load helper libraries -->
-  <script src="https://unpkg.com/grapheme-splitter@1.0.4/index.js"></script>
+  <script src="https://unpkg.com/grapheme-splitter @1.0.4/index.js"></script>
   <!-- Load your custom scripts -->
   <script src="won.js"></script>
   <script src="sinhala-splitter.js"></script>
 
   <script>
-  function showCopyNotification(text) {
+
+
+    const sinhalaMap = {
+  // Vowels
+  "oo": "ඌ",
+  "o)": "ඕ",
+  "oe": "ඕ",
+  "aa": "ආ",
+  "a)": "ආ",
+  "Aa": "ඈ",
+  "A)": "ඈ",
+  "ae": "ඈ",
+  "ii": "ඊ",
+  "i)": "ඊ",
+  "ie": "ඊ",
+  "ee": "ඊ",
+  "ea": "ඒ",
+  "e)": "ඒ",
+  "ei": "ඒ",
+  "uu": "ඌ",
+  "u)": "ඌ",
+  "au": "ඖ",
+  "/a": "ඇ",
+  "a": "අ",
+  "A": "ඇ",
+  "i": "ඉ",
+  "I": "ඓ",
+  "e": "එ",
+  "u": "උ",
+  "o": "ඔ",
+
+  // Special Characters
+  "\$": "ං",       // \ → ං
+  "\\h": "ඃ",
+  "\\N": "ඞ",
+  "\\R": "ඍ",
+  "R": "ර්‍",
+  "\\r": "ර්‍",
+  "x":"ං",
+  "nnd" :"ඬ",
+  "nndh":"ඳ",
+  // Special Combinations
+  "ruu": "ෲ",
+  "ru": "ෘ"
+};
+      function showMapping() {
+  const modal = document.getElementById("mappingModal");
+  const list = document.getElementById("mappingList");
+
+  list.innerHTML = ""; // Clear old content
+
+  for (let key in sinhalaMap) {
+    const value = sinhalaMap[key];
+    const li = document.createElement("li");
+    li.textContent = `${key} → ${value}`;
+    list.appendChild(li);
+  }
+
+  modal.style.display = "block";
+}
+
+function hideMapping() {
+  document.getElementById("mappingModal").style.display = "none";
+}
+    function showCopyNotification(text) {
       const alertBox = document.getElementById("customAlert");
       alertBox.textContent = text;
       alertBox.style.display = "block";
       setTimeout(() => {
         alertBox.style.display = "none";
       }, 2000);
-}
+    }
+
     let copyUnicode = true;
 
     function handleTyping(value) {
@@ -179,22 +318,18 @@ Copied!
     function toggleCopyMode() {
       copyUnicode = !copyUnicode;
       const btn = document.getElementById("copyToggleBtn");
-      btn.textContent = copyUnicode
-        ? "Copy Mode: Unicode"
-        : "Copy Mode: Legacy";
+      btn.textContent = copyUnicode ? "Copy Mode: Unicode" : "Copy Mode: Legacy";
       btn.classList.toggle("active", !copyUnicode);
     }
 
     function copyText() {
-  const box = copyUnicode
-    ? document.getElementById("box3")
-    : document.getElementById("box4");
-  box.select();
-  document.execCommand("copy");
+      const box = copyUnicode ? document.getElementById("box3") : document.getElementById("box4");
+      box.select();
+      document.execCommand("copy");
 
-  const message = copyUnicode ? "Unicode" : "Legacy Font";
-  showCopyNotification("Copied: " + message);
-}
+      const message = copyUnicode ? "Unicode" : "Legacy Font";
+      showCopyNotification("Copied: " + message);
+    }
 
     function clearText() {
       document.getElementById("box2").value = "";
@@ -220,11 +355,13 @@ Copied!
       doc.text(legacyText, 10, 60);
 
       doc.save("sinhala_output.pdf");
+      
+
     }
   </script>
 
   <!-- Include jsPDF from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
 
 </body>
 </html>
