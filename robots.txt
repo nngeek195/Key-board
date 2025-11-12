@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sinhalaunicodes.vercel.app/sitemap.xml
